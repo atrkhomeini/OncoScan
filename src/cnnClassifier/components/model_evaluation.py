@@ -56,21 +56,14 @@ class Evaluation:
     def log_into_mlflow(self):
         import dagshub
         dagshub.init(repo_owner='atrkhomeini', repo_name='chest-cancer-classification', mlflow=True)
-
-        import mlflow
-        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
-        with mlflow.start_run():
-            mlflow.log_param(self.config.all_params)
-            mlflow.log_metric({"loss": self.score[0], "accuracy": self.score[1]})
-
         #mlflow.set_registry_uri(self.config.mlflow_uri)
+        tracking_url_type_store = urlparse(mlflow.get_tracking_uri()).scheme
         
-        
-       # with mlflow.start_run():
-            #mlflow.log_params(self.config.all_params)
-            #mlflow.log_metrics(
-                #{"loss": self.score[0], "accuracy": self.score[1]}
-            #)
+        with mlflow.start_run():
+            mlflow.log_params(self.config.all_params)
+            mlflow.log_metrics(
+                {"loss": self.score[0], "accuracy": self.score[1]}
+            )
             # Model registry does not work with file store
             if tracking_url_type_store != "file":
 

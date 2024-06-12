@@ -90,7 +90,7 @@ DVC
 
 	
 ## 3. Create ECR repo to store/save docker image
-    - Save the URI: 5891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/mlproj
+    - Save the URI: 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer
 
 	
 ## 4. Create EC2 machine (Ubuntu) 
@@ -124,7 +124,7 @@ DVC
 
     AWS_SECRET_ACCESS_KEY=
 
-    AWS_REGION = us-east-1
+    AWS_REGION = ap-southeast-2
 
     AWS_ECR_LOGIN_URI = demo>>  566373416292.dkr.ecr.ap-south-1.amazonaws.com
 

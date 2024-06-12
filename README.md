@@ -13,3 +13,22 @@
 8. Update the main.py
 9. Update the dvc.yaml
 
+
+
+## MLflow
+
+- [Documentation](https://mlflow.org/docs/latest/index.html)
+
+##### cmd
+- mlflow ui
+
+### dagshub
+[dagshub](https://dagshub.com/)
+
+import dagshub
+dagshub.init(repo_owner='atrkhomeini', repo_name='chest-cancer-classification', mlflow=True)
+
+import mlflow
+with mlflow.start_run():
+  mlflow.log_param('parameter name', 'value')
+  mlflow.log_metric('metric name', 1)

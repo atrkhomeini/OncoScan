@@ -58,9 +58,11 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker build -t cancer .
+          docker tag cancer:latest 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+          docker push 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+          echo "Done"
+          # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           
           
   Continuous-Deployment:

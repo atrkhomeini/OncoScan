@@ -57,7 +57,7 @@ jobs:
         run: |
           # Build a docker container and
           # push it to ECR so that it can
-          # be deployed to ECS.
+          # be deployed to ECS
           docker build -t 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest .
           docker push 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
           echo "::set-output name=image::533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest"

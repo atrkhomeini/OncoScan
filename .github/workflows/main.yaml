@@ -71,6 +71,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.8.5
+          terraform_wrapper: false
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -78,15 +83,65 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Initialize Terraform
+        id: init
+        run: terraform init
+      
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=plan.out  
 
+      - name: Terraform Apply
+        run: terraform apply plan.out
+        env:
+          TF_VAR_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          TF_VAR_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
+      - name: Get Instance IP
+        id: instance_ip
+        run: |
+          INSTANCE_IP=$(terraform output -raw instance_ip)
+          echo "::set-output name=instance_ip::$INSTANCE_IP"
+          echo "Instance IP: $INSTANCE_IP" >> $GITHUB_ENV
+          echo ${{ env.INSTANCE_IP }}
+
+      - name: Install jq
+        run: |
+          sudo apt-get install jq
+          sudo apt-get install -y jq
+
+      - name: Get SSH Key
+        id: ssh_private_key
+        run: |
+          SSH_PRIVATE_KEY=$(terraform show -json | jq -r '.values.root_module.resources[] | select(.type == "tls_private_key" and .name == "rsa_4096") | .values.private_key_pem')
+          echo "${SSH_PRIVATE_KEY}" > ssh_private_key.pem
+          chmod 600 ssh_private_key.pem
+          echo "::set-output name=ssh_private_key::ssh_private_key.pem"
+          echo "$SSH_PRIVATE_KEY"
+    
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
       
       
       - name: Pull latest images
+        shell: /usr/bin/bash -e {0}
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          INSTANCE_IP: ${{ env.INSTANCE_IP }}
         run: |
+         ssh -o StrictHostKeyChecking=no -i ssh_private_key.pem ec2-user@${{ INSTANCE_IP }} '
+         sudo apt-get update -y
+         sudo apt-get upgrade
+         curl -fsSL https://get.docker.com -o get-docker.sh
+         sudo sh get-docker.sh
+         sudo usermod -aG docker ubuntu
+         newgrp docker
          docker pull 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+         '
          
       # - name: Stop and remove container if running
       #   run: |

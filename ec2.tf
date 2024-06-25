@@ -6,11 +6,7 @@ terraform {
     }
   }
 }
-provider "aws" {
-  region = "ap-southeast-2"
-  access_key = "AKIA47CRXRYIBXSTU2MP"
-  secret_key = "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"
-}
+
 #create instance
 resource "aws_instance" "web" {
     ami ="ami-080660c9757080771"

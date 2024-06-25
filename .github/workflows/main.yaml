@@ -59,7 +59,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           docker build -t cancer .
-          docker tag cancer:latest 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+          docker tag chest-cancer:latest 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/chest-cancer:latest
           docker push 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
           echo "Done"
           # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
@@ -86,7 +86,7 @@ jobs:
       
       - name: Pull latest images
         run: |
-         docker pull 891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+         docker pull 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/chest-cancer:latest
          
       # - name: Stop and remove container if running
       #   run: |
@@ -94,7 +94,7 @@ jobs:
        
       - name: Run Docker Image to serve users
         run: |
-         docker run -d -p 8080:8080 --name=chest-cancerv4 -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e 'AWS_REGION=${{ secrets.AWS_REGION }}'  891377126928.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
+         docker run -d -p 8080:8080 --name=chest-cancerv4 -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}' -e 'AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}' -e 'AWS_REGION=${{ secrets.AWS_REGION }}'  533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/chest-cancer:latest
       - name: Clean previous images and containers
         run: |
          docker system prune -f

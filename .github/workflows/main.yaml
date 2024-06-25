@@ -61,8 +61,7 @@ jobs:
           docker build -t 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest .
           docker push 533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest
           echo "::set-output name=image::533267132509.dkr.ecr.ap-southeast-2.amazonaws.com/cancer:latest"
-          
-          
+                  
   Continuous-Deployment:
     needs: build-and-push-ecr-image
     runs-on: self-hosted

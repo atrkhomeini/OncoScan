@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+provider "aws" {
+  region = "ap-southeast-2"
+  access_key = "AKIA47CRXRYIBXSTU2MP"
+  secret_key = "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"
+}
 #create instance
 resource "aws_instance" "web" {
     ami ="ami-080660c9757080771"
@@ -23,8 +36,9 @@ resource "tls_private_key" "rsa"{
 
 resource "local_file" "TF-key" {
   content = tls_private_key.rsa.private_key_pem
-  filename = "tf-key.pem"
+  filename = "tf-key"
 }
+
 
 #Security group
 resource "aws_security_group" "allow_tls" {
@@ -72,3 +86,6 @@ resource "aws_security_group" "allow_tls" {
   }
 }
 
+output "web" {
+  value = aws_instance.web.public_ip
+}

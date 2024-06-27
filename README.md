@@ -45,8 +45,8 @@ with mlflow.start_run():
 MLflow
 
  - Its Production Grade
- - Trace all of your expriements
- - Logging & taging your model
+ - Trace all of experiements
+ - Logging & taging model
 
 
 DVC 
@@ -66,20 +66,20 @@ DVC
 
 	1. EC2 access : It is virtual machine
 
-	2. ECR: Elastic Container registry to save your docker image in aws
+	2. ECR: Elastic Container registry to save docker image in aws
 
 
 	#Description: About the deployment
 
 	1. Build docker image of the source code
 
-	2. Push your docker image to ECR
+	2. Push docker image to ECR
 
-	3. Launch Your EC2 
+	3. Launch EC2 
 
-	4. Pull Your image from ECR in EC2
+	4. Pull image from ECR in EC2
 
-	5. Lauch your docker image in EC2
+	5. Lauch docker image in EC2
 
 	#Policy:
 

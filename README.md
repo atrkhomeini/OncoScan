@@ -1,4 +1,4 @@
-# Chest-Cancer-Classification-using-MLflow-DVC
+# OncoScan - Chest Cancer Classification
 
 
 ## Workflows

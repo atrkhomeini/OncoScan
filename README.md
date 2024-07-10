@@ -131,3 +131,6 @@ DVC
 
     ECR_REPOSITORY_NAME = simple-app
 
+## Screenshots
+
+![App Screenshot](https://github.com/atrkhomeini/OncoScan/blob/master/image.png)
